@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "940045260121",
+    "project_id": "maksatyitigorec",
+    "storage_bucket": "maksatyitigorec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940045260121:android:23ce83878bc79531056848",
+        "android_client_info": {
+          "package_name": "com.gurbanowdadebay.yitigorecmaksat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940045260121-2p2kk8gb3hdn8kb5l3tck6ml9s7kt4qc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gurbanowdadebay.yitigorecmaksat",
+            "certificate_hash": "6d0d738f468c3d6cfa97ad5d010940a63ac36575"
+          }
+        },
+        {
+          "client_id": "940045260121-ofpq0t1jurro09sc97r5p1reh3iv6f73.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWWNhjKQlRxOvlQog2Ai95u_4Md-k_YEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940045260121-ofpq0t1jurro09sc97r5p1reh3iv6f73.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

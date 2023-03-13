@@ -1,0 +1,63 @@
+name: maksat_app
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies:
+  cached_network_image: any
+  carousel_slider: ^4.0.0
+  cupertino_icons: ^1.0.2
+  firebase_messaging:
+  firebase_core:  
+  cloud_firestore:
+  flutter_local_notifications: ^13.0.0
+  flutter:
+    sdk: flutter
+  flutter_iconly: ^1.0.2
+  firebase_core_platform_interface: 
+  flutter_staggered_grid_view: ^0.4.0
+  get: 4.6.5
+  get_storage: 2.0.3
+  http: any
+  lottie: ^1.2.1
+  photo_view: ^0.13.0
+  pull_to_refresh: ^2.0.0
+  restart_app: ^1.1.0
+  persistent_bottom_nav_bar: ^4.0.2
+  share: any
+  url_launcher: 6.1.6
+  step_progress_indicator: ^1.0.1
+  vibration: ^1.7.5
+  image_picker: ^0.8.4+4 
+  permission_handler:
+  dotted_border: ^2.0.0+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/lottie/
+    - assets/image/
+    - assets/image/banners/
+
+  fonts:
+    - family: GilroyBold
+      fonts:
+        - asset: assets/fonts/Gilroy-Bold.ttf
+    - family: GilroySemiBold
+      fonts:
+        - asset: assets/fonts/Gilroy-SemiBold.ttf
+    - family: GilroyMedium
+      fonts:
+        - asset: assets/fonts/Gilroy-Medium.ttf
+    - family: GilroyRegular
+      fonts:
+        - asset: assets/fonts/Gilroy-Regular.ttf
+  uses-material-design: true
+  generate: true
