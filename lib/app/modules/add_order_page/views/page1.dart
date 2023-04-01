@@ -1,11 +1,13 @@
 // ignore_for_file: file_names
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:maksat_app/app/constants/constants.dart';
+import 'package:maksat_app/app/constants/error_widgets/empty_widgets.dart';
 import 'package:maksat_app/app/constants/widgets.dart';
+import 'package:maksat_app/app/data/models/category_model.dart';
+import 'package:maksat_app/app/data/services/category_services.dart';
 import 'package:maksat_app/app/modules/home/controllers/home_controller.dart';
 
 class Page1 extends StatelessWidget {
@@ -31,38 +33,35 @@ class Page1 extends StatelessWidget {
           thickness: 1,
         ),
         Expanded(
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('ordersList').snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+            child: FutureBuilder<List<CategoryModel>>(
+                future: CategoryServices().getCategories(),
+                builder: (context, streamSnapshot) {
                   if (streamSnapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: spinKit());
                   } else if (streamSnapshot.hasError) {
-                    return Center(
-                        child: Text(
-                      "noData1".tr,
-                      style: TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 22),
-                    ));
-                  } else if (streamSnapshot.data!.docs.isEmpty) {
-                    return Center(
-                      child: Text(
-                        "noData".tr,
-                        style: TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 22),
-                      ),
-                    );
+                    return errorPage();
+                  } else if (streamSnapshot.data!.isEmpty) {
+                    return emptyPage();
                   }
                   return ListView.separated(
                     physics: BouncingScrollPhysics(),
-                    itemCount: streamSnapshot.data!.docs.length,
+                    padding: EdgeInsets.zero,
+                    itemCount: streamSnapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         onTap: () {
-                          homeController.documentID.value = streamSnapshot.data!.docs[index].id;
+                          homeController.selectedList.clear();
                           homeController.incrementPageIndex();
+                          homeController.selectedCategoryID.value = streamSnapshot.data![index].id!;
                         },
                         minVerticalPadding: 0.0,
                         title: Text(
-                          Get.locale!.languageCode == 'tr' ? streamSnapshot.data!.docs[index]['orderNameTm'] : streamSnapshot.data!.docs[index]['orderNameRu'],
-                          style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                          streamSnapshot.data![index].name!,
+                          style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
+                        ),
+                        subtitle: Text(
+                          'minPrice'.tr + ' - ' + streamSnapshot.data![index].minPrice! + ' m',
+                          style: TextStyle(color: Colors.grey, fontFamily: gilroyMedium, fontSize: 14),
                         ),
                         trailing: Icon(
                           IconlyLight.arrowRightCircle,

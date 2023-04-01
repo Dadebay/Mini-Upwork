@@ -4,12 +4,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:maksat_app/app/constants/constants.dart';
 import 'package:maksat_app/app/constants/custom_app_bar.dart';
-import 'package:maksat_app/app/modules/home/views/photo_view.dart';
 
 import '../../../constants/error_widgets/empty_widgets.dart';
-import '../../../constants/error_widgets/error_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
+import 'banner_profile_view.dart';
 
 class OurServices extends StatelessWidget {
   const OurServices({super.key, required this.future});
@@ -26,9 +25,19 @@ class OurServices extends StatelessWidget {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (streamSnapshot.hasError) {
-              return bannerErrorWidget();
+              return Container(
+                width: Get.size.width,
+                height: Get.size.height,
+                color: Colors.white,
+                child: errorPage(),
+              );
             } else if (streamSnapshot.data!.isEmpty) {
-              return bannerEmptyWidget();
+              return Container(
+                width: Get.size.width,
+                color: Colors.white,
+                height: Get.size.height,
+                child: emptyPage(),
+              );
             }
             return customWidget(
               child: StaggeredGridView.countBuilder(
@@ -38,7 +47,11 @@ class OurServices extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => PhotoViewPage(image: '$serverURL/${streamSnapshot.data![index].destination!}-mini.webp'));
+                      Get.to(() => BannerProfileView(
+                            streamSnapshot.data![index].title!,
+                            '$serverURL/${streamSnapshot.data![index].destination!}-mini.webp',
+                            streamSnapshot.data![index].description!,
+                          ));
                     },
                     child: Container(
                       margin: EdgeInsets.all(8),

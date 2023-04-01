@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:restart_app/restart_app.dart';
 
 import '../modules/user_profil/controllers/user_profil_controller.dart';
 import 'constants.dart';
@@ -12,13 +11,20 @@ dynamic noBannerImage() {
 }
 
 dynamic spinKit() {
-  return CircularProgressIndicator(
-    color: kPrimaryColor,
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: CircularProgressIndicator(
+        color: kPrimaryColor,
+      ),
+    ),
   );
 }
 
 dynamic customWidget({required Widget child}) {
-  return ClipRRect(borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)), child: Container(decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))), child: child));
+  return ClipRRect(
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+      child: Container(decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))), child: child));
 }
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
@@ -121,87 +127,6 @@ void changeLanguage() {
             title: const Text(
               'Русский',
               style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-void logOut() {
-  Get.bottomSheet(
-    Container(
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Wrap(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 15,
-              right: 15,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Text(
-                  'log_out'.tr,
-                  style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
-                )
-              ],
-            ),
-          ),
-          divider(),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-            child: Text(
-              'log_out_title'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey[500],
-                fontFamily: gilroyMedium,
-                fontSize: 16,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              Get.find<UserProfilController>().userLogin.value = false;
-              Get.back();
-              await Restart.restartApp();
-            },
-            child: Container(
-              width: Get.size.width,
-              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.grey[500], borderRadius: borderRadius10),
-              child: Text(
-                'yes'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              Get.back();
-            },
-            child: Container(
-              width: Get.size.width,
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(color: Colors.red, borderRadius: borderRadius10),
-              child: Text(
-                'no'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
             ),
           ),
         ],

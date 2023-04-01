@@ -2,10 +2,10 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
-  RxInt selectedPageBottomIndex = 0.obs;
+  RxInt selectedCategoryID = 0.obs;
   RxInt selectedPageIndex = 0.obs;
-  RxString documentID = ''.obs;
-  RxList myArray = [].obs;
+  RxList selectedList = [].obs;
+
   dicrementPageIndex() {
     selectedPageIndex.value--;
   }

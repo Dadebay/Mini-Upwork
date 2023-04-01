@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:maksat_app/app/constants/constants.dart';
 
-import 'app/modules/sign_in_page/views/connection_check.dart';
+import 'app/modules/user_profil/views/connection_check.dart';
 import 'app/constants/main_helper.dart';
 import 'app/constants/utils/translations.dart';
 
@@ -25,6 +26,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging.instance.getToken().then((value) {
+      print(value);
+      print(value);
+      print(value);
+      print(value);
+    });
     myAppOnInit();
   }
 

@@ -39,13 +39,16 @@ class _AddOrderPageViewState extends State<AddOrderPageView> {
                 onTap: () {
                   bottomNavBarController.selectedPageIndex.value >= 1 ? bottomNavBarController.dicrementPageIndex() : Get.back();
                 },
-                child: bottomNavBarController.selectedPageIndex.value == 4
-                    ? const SizedBox.shrink()
-                    : const Icon(
-                        IconlyLight.arrowLeftCircle,
-                        color: kPrimaryColor,
-                        size: 25,
-                      ),
+                child: Obx(() {
+                  print(bottomNavBarController.selectedPageIndex.value);
+                  return bottomNavBarController.selectedPageIndex.value >= 3
+                      ? const SizedBox.shrink()
+                      : const Icon(
+                          IconlyLight.arrowLeftCircle,
+                          color: kPrimaryColor,
+                          size: 25,
+                        );
+                }),
               ),
               GestureDetector(
                 onTap: () {

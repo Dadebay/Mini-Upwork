@@ -4,7 +4,6 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:maksat_app/app/constants/custom_app_bar.dart';
-import '../../sign_in_page/views/tabbar_view.dart';
 import '../../../constants/buttons/profile_button.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
@@ -25,9 +24,7 @@ class _UserProfilViewState extends State<UserProfilView> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'settings'),
-      body: Obx(() {
-        return page();
-      }),
+      body: page(),
     );
   }
 
@@ -70,14 +67,6 @@ class _UserProfilViewState extends State<UserProfilView> {
               Get.to(() => const AboutUsView());
             },
             icon: IconlyLight.user3,
-            langIconStatus: false,
-          ),
-          ProfilButton(
-            name: userProfilController.userLogin.value ? 'log_out' : 'signUp',
-            onTap: () {
-              userProfilController.userLogin.value ? logOut() : Get.to(() => TabbarView());
-            },
-            icon: IconlyLight.login,
             langIconStatus: false,
           ),
         ],

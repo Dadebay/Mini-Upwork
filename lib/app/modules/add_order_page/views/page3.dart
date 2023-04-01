@@ -1,17 +1,18 @@
 // ignore_for_file: deprecated_member_use, file_names, depend_on_referenced_packages, avoid_void_async, always_declare_return_types, type_annotate_public_apis, unnecessary_statements, unrelated_type_equality_checks
 
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:maksat_app/app/constants/textFields/phone_number.dart';
 import 'package:maksat_app/app/modules/home/controllers/home_controller.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:vibration/vibration.dart';
+import 'package:http/http.dart' as http;
+import 'package:maksat_app/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 import '../../../constants/buttons/agree_button.dart';
 import '../../../constants/constants.dart';
+import '../../../constants/textFields/custom_text_field.dart';
 import '../../../constants/widgets.dart';
 
 class Page3 extends StatefulWidget {
@@ -21,42 +22,40 @@ class Page3 extends StatefulWidget {
 
 class _Page3State extends State<Page3> {
   final HomeController homeController = Get.put(HomeController());
-
-  final List<XFile> _imageFileList = [];
-  final ImagePicker _picker = ImagePicker();
-
-  void selectImages() async {
-    final List<XFile> selectedImages = await _picker.pickMultiImage(imageQuality: 25);
-    if (selectedImages.length <= 15) {
-      setState(() {
-        final int a = selectedImages.length;
-        final int b = _imageFileList.length;
-        if (a + b <= 15) {
-          if (b <= 15) {
-            for (int i = 0; i < a; i++) {
-              if (((File(selectedImages[i].path).readAsBytesSync().length / 1024) / 1024) < 1) {
-                _imageFileList.add(selectedImages[i]);
-              } else {
-                showSnackBar("mbErrorTitle", "mbErrorSubtitle", kPrimaryColor);
-                Vibration.vibrate();
-              }
-            }
-          } else {
-            showSnackBar("selectMoreImageTitle", "selectMoreImageSubtitle", kPrimaryColor);
-            Vibration.vibrate();
-          }
-        } else {
-          showSnackBar("selectMoreImageTitle", "selectMoreImageSubtitle", kPrimaryColor);
-          Vibration.vibrate();
-        }
-      });
-    } else {
-      showSnackBar("selectMoreImageTitle", "selectMoreImageSubtitle", kPrimaryColor);
-      Vibration.vibrate();
-    }
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController descController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode descFocusNode = FocusNode();
+  final FocusNode phoneFocusNode = FocusNode();
+  Widget type1({required String name, required TextEditingController controller, required FocusNode focusNode, required FocusNode requestFocus, required int maxline}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            name.tr,
+            style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+          ),
+          CustomTextField(
+            validate: true,
+            labelName: '',
+            borderRadius: true,
+            controller: controller,
+            focusNode: focusNode,
+            requestfocusNode: requestFocus,
+            isNumber: false,
+            maxline: maxline,
+          ),
+        ],
+      ),
+    );
   }
 
-  bool addRealEstateValue = false;
+  final validator = GlobalKey<FormState>();
+  final UserProfilController userProfilController = Get.put(UserProfilController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,81 +66,77 @@ class _Page3State extends State<Page3> {
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "selectImages".tr,
+              "aboutYou".tr,
               textAlign: TextAlign.start,
-              style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+              style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 20),
             ),
             Text(
-              "selectImagesCount".tr,
+              "aboutYouSubtitle".tr,
               textAlign: TextAlign.start,
-              style: TextStyle(color: Colors.grey[400], fontFamily: gilroyMedium, fontSize: 16),
+              style: TextStyle(color: Colors.red, fontFamily: gilroyMedium, fontSize: 16),
             ),
             const SizedBox(
               height: 10,
             ),
             Expanded(
-              child: GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: _imageFileList.isEmpty ? 1 : _imageFileList.length + 1,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index == 0) {
-                      return GestureDetector(
-                        onTap: () async {
-                          await Permission.camera.request();
-                          await Permission.photos.request();
-                          selectImages();
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          child: DottedBorder(
-                            borderType: BorderType.RRect,
-                            radius: const Radius.circular(20),
-                            padding: const EdgeInsets.all(6),
-                            strokeWidth: 2,
-                            color: kPrimaryColor,
-                            child: const Center(
-                              child: Icon(
-                                Icons.add,
-                                color: kPrimaryColor,
-                                size: 50,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    return Container(
-                      margin: const EdgeInsets.all(5),
-                      decoration: const BoxDecoration(borderRadius: borderRadius20),
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            top: 10,
-                            bottom: 5,
-                            left: 5,
-                            right: 10,
-                            child: Material(
-                              elevation: 2,
-                              borderRadius: borderRadius20,
-                              child: ClipRRect(
-                                borderRadius: borderRadius20,
-                                child: Image.file(File(_imageFileList[index - 1].path), fit: BoxFit.cover),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-            ),
-            // agreeButton2()
+                child: Form(
+              key: validator,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  type1(controller: nameController, focusNode: nameFocusNode, name: 'userName', requestFocus: phoneFocusNode, maxline: 1),
+                  Text(
+                    'phoneNumber'.tr,
+                    style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                  ),
+                  PhoneNumber(mineFocus: phoneFocusNode, controller: phoneNumberController, requestFocus: descFocusNode),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  type1(controller: descController, focusNode: descFocusNode, name: 'note', requestFocus: nameFocusNode, maxline: 4),
+                ],
+              ),
+            )),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: AgreeButton(
-                onTap: () {
-                  homeController.incrementPageIndex();
-                },
+              child: Center(
+                child: AgreeButton(
+                  onTap: () async {
+                    if (userProfilController.agreeButton.value == false) {
+                      userProfilController.agreeButton.value = !userProfilController.agreeButton.value;
+                      if (validator.currentState!.validate()) {
+                        final response = await http.post(
+                          Uri.parse('$serverURL/api/create-order'),
+                          headers: <String, String>{
+                            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode({
+                            "name": nameController.text,
+                            "phone": phoneNumberController.text,
+                            "description": descController.text,
+                            "category_id": homeController.selectedCategoryID.value,
+                            'specs': homeController.selectedList,
+                          }),
+                        );
+                        print(response.body);
+                        if (response.statusCode == 200) {
+                          final responseJson = jsonDecode(response.body);
+                          userProfilController.agreeButton.value = !userProfilController.agreeButton.value;
+                          userProfilController.addOrderId(id: responseJson['id'].toString());
+                          homeController.incrementPageIndex();
+                        } else {
+                          showSnackBar('noConnection3', 'noConnection4', Colors.red);
+                          userProfilController.agreeButton.value = !userProfilController.agreeButton.value;
+                        }
+                      } else {
+                        showSnackBar('noConnection3', 'errorData', Colors.red);
+                        userProfilController.agreeButton.value = !userProfilController.agreeButton.value;
+                      }
+                    } else {
+                      showSnackBar('noConnection3', 'noConnection4', Colors.red);
+                    }
+                  },
+                ),
               ),
             )
           ])),

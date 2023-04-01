@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:maksat_app/app/data/models/aboust_us_model.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/custom_app_bar.dart';
+import '../../../constants/error_widgets/empty_widgets.dart';
 import '../../../constants/widgets.dart';
+import '../../../data/services/get_user_data.dart';
 
 class AboutUsView extends GetView {
   const AboutUsView({Key? key}) : super(key: key);
@@ -15,28 +17,21 @@ class AboutUsView extends GetView {
         backgroundColor: kPrimaryColor,
         appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUS'),
         body: customWidget(
-          child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('aboutUS').snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          child: FutureBuilder<AboutUsModel>(
+              future: GetUserData().getAboutUs(),
+              builder: (context, streamSnapshot) {
                 if (streamSnapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return spinKit();
                 } else if (streamSnapshot.hasError) {
-                  return Center(
-                      child: Text(
-                    "noData1".tr,
-                    style: TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 22),
-                  ));
-                } else if (streamSnapshot.data!.docs.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "noData".tr,
-                      style: TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 22),
-                    ),
-                  );
+                  return errorPage();
+                } else if (streamSnapshot.data == null) {
+                  return emptyPage();
                 }
-                return Padding(
+                return Container(
+                  width: Get.size.width,
                   padding: const EdgeInsets.all(14.0),
                   child: Column(
+                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -48,9 +43,9 @@ class AboutUsView extends GetView {
                         ),
                       ),
                       Text(
-                        streamSnapshot.data!.docs[0]['contactUS'],
+                        streamSnapshot.data!.aboutUs!,
                         textAlign: TextAlign.start,
-                        style: const TextStyle(fontSize: 18, color: Colors.black),
+                        style: const TextStyle(fontSize: 18, fontFamily: gilroyMedium, color: Colors.black),
                       ),
                     ],
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-const String serverURL = 'http://95.85.127.250:4000';
+// const String serverURL = 'http://95.85.127.250:4000';
+const String serverURL = 'http://216.250.9.167:4000';
 const Color kPrimaryColor = Color(0xff00093e);
 const Color kPrimaryColor2 = Color.fromARGB(255, 0, 24, 162);
 
@@ -22,6 +23,8 @@ const String gilroyBold = 'GilroyBold';
 const String tmIcon = 'assets/image/tm.png';
 const String ruIcon = 'assets/image/ru.png';
 const String logo = 'assets/image/logo.png';
+const String noData = 'assets/lottie/noData.json';
+
 const String shareIcon = 'assets/icons/share1.png';
 const String appName = 'Ýitigöreç';
 const String appShareLink = 'https://play.google.com/store/apps/details?id=com.bilermennesil.yaka2';

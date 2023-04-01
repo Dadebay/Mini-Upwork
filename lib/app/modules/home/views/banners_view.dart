@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../../constants/cards/banner_card.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/error_widgets/empty_widgets.dart';
-import '../../../constants/error_widgets/error_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
 import '../controllers/home_controller.dart';
@@ -54,7 +53,12 @@ class BannersView extends GetView {
         future: future,
         builder: (context, streamSnapshot) {
           if (streamSnapshot.connectionState == ConnectionState.waiting) {
-            return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.2)), child: Center(child: spinKit()));
+            return Container(
+                margin: const EdgeInsets.all(8),
+                height: 220,
+                width: Get.size.width,
+                decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.2)),
+                child: Center(child: spinKit()));
           } else if (streamSnapshot.hasError) {
             return bannerErrorWidget();
           } else if (streamSnapshot.data!.isEmpty) {

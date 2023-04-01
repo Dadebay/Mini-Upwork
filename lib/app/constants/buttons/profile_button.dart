@@ -32,9 +32,7 @@ class ProfilButton extends StatelessWidget {
         name.tr,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: const TextStyle(
-          color: Colors.black,
-        ),
+        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
       ),
       leading: langIconStatus!
           ? langIcon

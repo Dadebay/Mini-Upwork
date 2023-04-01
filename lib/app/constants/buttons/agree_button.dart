@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maksat_app/app/constants/constants.dart';
-
-import '../../modules/sign_in_page/controllers/sign_in_page_controller.dart';
+import 'package:maksat_app/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 class AgreeButton extends StatelessWidget {
   final Function() onTap;
@@ -14,7 +13,7 @@ class AgreeButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final SignInPageController signInPageController = Get.put(SignInPageController());
+  final UserProfilController signInPageController = Get.put(UserProfilController());
 
   @override
   Widget build(BuildContext context) {

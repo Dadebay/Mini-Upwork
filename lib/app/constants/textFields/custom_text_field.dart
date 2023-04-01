@@ -14,8 +14,10 @@ class CustomTextField extends StatelessWidget {
   final bool isNumber;
   final bool? borderRadius;
   final bool? disabled;
+  final bool? validate;
 
   const CustomTextField({
+    required this.validate,
     required this.labelName,
     required this.controller,
     required this.focusNode,
@@ -34,12 +36,16 @@ class CustomTextField extends StatelessWidget {
         style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
         cursorColor: Colors.black,
         controller: controller,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'errorEmpty'.tr;
-          }
-          return null;
-        },
+        validator: validate == true
+            ? (value) {
+                if (value!.isEmpty) {
+                  return 'errorEmpty'.tr;
+                }
+                return null;
+              }
+            : (value) {
+                return null;
+              },
         onEditingComplete: () {
           requestfocusNode.requestFocus();
         },

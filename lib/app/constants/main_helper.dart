@@ -8,7 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../modules/sign_in_page/views/connection_check.dart';
+import '../modules/user_profil/views/connection_check.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -26,11 +26,13 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print(message);
+  print(message);
   await Firebase.initializeApp();
   await flutterLocalNotificationsPlugin.show(
     message.data.hashCode,
-    message.notification!.title,
-    message.notification!.body,
+    message.data['body'],
+    message.data['title'],
     NotificationDetails(
       android: AndroidNotificationDetails(
         channel.id,
@@ -38,7 +40,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         channelDescription: channel.description,
         color: Colors.white,
         styleInformation: const BigTextStyleInformation(''),
-        icon: '@mipmap/ic_launcher',
+        icon: '@mipmap/ic_l auncher',
       ),
     ),
   );
@@ -81,11 +83,12 @@ dynamic mainDartImports() async {
 }
 
 dynamic myAppOnInit() {
+  FirebaseMessaging.instance.subscribeToTopic('EVENT');
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     flutterLocalNotificationsPlugin.show(
       message.data.hashCode,
-      message.notification!.title,
-      message.notification!.body,
+      message.data['body'],
+      message.data['title'],
       NotificationDetails(
         android: AndroidNotificationDetails(
           channel.id,
