@@ -15,8 +15,12 @@ class Page4 extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(child: Lottie.asset('assets/lottie/done.json', width: 400, height: 400)),
+          Expanded(
+              child: Lottie.asset(
+            'assets/lottie/done.json',
+          )),
           Text(
             'orderConfirmed'.tr,
             textAlign: TextAlign.left,

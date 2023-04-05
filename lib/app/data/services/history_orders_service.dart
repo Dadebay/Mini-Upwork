@@ -9,30 +9,27 @@ import 'package:maksat_app/app/modules/user_profil/controllers/user_profil_contr
 import '../../constants/constants.dart';
 
 class HistoryOrdersService {
+  final UserProfilController userProfilController = Get.put(UserProfilController());
+
   Future<List<HistoryOrderModel>> getHistoryOrders() async {
     final List<HistoryOrderModel> orderList = [];
-    final UserProfilController userProfilController = Get.put(UserProfilController());
-    print(userProfilController.list);
-    userProfilController.returnList();
-    print(userProfilController.list);
-
+    await userProfilController.returnList();
     final response = await http.get(
       Uri.parse('$serverURL/api/get-orders').replace(
         queryParameters: {
-          'orders': jsonEncode(userProfilController.list),
+          'orders': jsonEncode(userProfilController.dataSaveList),
         },
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)['data']['orders'] as List;
       for (final Map product in responseJson) {
         orderList.add(HistoryOrderModel.fromJson(product));
       }
-      return orderList;
+      return orderList.reversed.toList();
     } else {
       return [];
     }

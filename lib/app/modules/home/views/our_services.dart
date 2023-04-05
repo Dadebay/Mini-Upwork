@@ -55,7 +55,7 @@ class OurServices extends StatelessWidget {
                     },
                     child: Container(
                       margin: EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: Colors.red, borderRadius: borderRadius30),
+                      decoration: BoxDecoration(color: Colors.grey.shade300, boxShadow: [BoxShadow(color: Colors.grey.shade300, spreadRadius: 3, blurRadius: 3)], borderRadius: borderRadius30),
                       child: CachedNetworkImage(
                         fadeInCurve: Curves.ease,
                         imageUrl: '$serverURL/${streamSnapshot.data![index].destination!}-mini.webp',

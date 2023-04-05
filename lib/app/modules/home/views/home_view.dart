@@ -7,7 +7,6 @@ import 'package:maksat_app/app/constants/constants.dart';
 import 'package:maksat_app/app/constants/widgets.dart';
 import 'package:maksat_app/app/modules/home/views/banners_view.dart';
 import 'package:maksat_app/app/modules/home/views/our_services.dart';
-import 'package:maksat_app/app/modules/user_profil/views/user_profil_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../constants/error_widgets/empty_widgets.dart';
@@ -16,7 +15,9 @@ import '../../../data/models/banner_model.dart';
 import '../../../data/services/banner_service.dart';
 import '../../../data/services/get_user_data.dart';
 import '../../add_order_page/views/add_order_page_view.dart';
+import '../../user_profil/controllers/user_profil_controller.dart';
 import '../../user_profil/views/history_orders.dart';
+import '../../user_profil/views/user_profil_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -36,6 +37,8 @@ class _HomeViewState extends State<HomeView> {
     bannersFuture = BannerService().getBanners();
     getWorks = BannerService().getWorks();
   }
+
+  final UserProfilController userProfilController = Get.put(UserProfilController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,18 +62,19 @@ class _HomeViewState extends State<HomeView> {
                   }),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  button('homePage3', IconlyLight.profile, () {
-                    Get.to(() => UserProfilView());
-                  }),
-                  button("homePage4", IconlyLight.document, () {
-                    Get.to(() => HistoryOrders());
-                  }),
-                ],
-              ),
+              Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: userProfilController.dataSaveList.isEmpty ? CrossAxisAlignment.start : CrossAxisAlignment.start,
+                    children: [
+                      button('homePage3', IconlyLight.profile, () {
+                        print(userProfilController.dataSaveList);
+                        userProfilController.dataSaveList.isEmpty ? Get.to(() => UserProfilView()) : Get.to(() => UserProfilView());
+                      }),
+                      button("homePage4", IconlyLight.document, () {
+                        Get.to(() => HistoryOrders());
+                      }),
+                    ],
+                  )),
             ],
           ),
         ));

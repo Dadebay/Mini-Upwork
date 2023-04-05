@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:maksat_app/app/constants/constants.dart';
 
+import 'app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'app/modules/user_profil/views/connection_check.dart';
 import 'app/constants/main_helper.dart';
 import 'app/constants/utils/translations.dart';
@@ -23,23 +24,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = GetStorage();
+  final UserProfilController userProfilController = Get.put(UserProfilController());
+
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken().then((value) {
-      print(value);
-      print(value);
-      print(value);
-      print(value);
-    });
+    FirebaseMessaging.instance.getToken().then((value) {});
     myAppOnInit();
+
+    userProfilController.returnList();
   }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Yaka',
+      title: 'Ýitigöreç',
       useInheritedMediaQuery: true,
       theme: ThemeData(
         brightness: Brightness.light,

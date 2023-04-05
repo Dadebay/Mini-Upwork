@@ -5,9 +5,13 @@ import '../../../constants/constants.dart';
 import '../../../constants/error_widgets/empty_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/history_orders_service.dart';
+import 'package:maksat_app/app/data/models/history_orders_model.dart';
+
+import '../controllers/user_profil_controller.dart';
 
 class HistoryOrders extends StatelessWidget {
-  const HistoryOrders({super.key});
+  HistoryOrders({super.key});
+  final UserProfilController userProfilController = Get.put(UserProfilController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,6 @@ class HistoryOrders extends StatelessWidget {
                   } else if (streamSnapshot.data == null) {
                     return emptyPage();
                   }
-                  print(streamSnapshot.data);
                   return Container(
                       width: Get.size.width,
                       height: Get.size.height,
@@ -52,44 +55,48 @@ class HistoryOrders extends StatelessWidget {
                         physics: BouncingScrollPhysics(),
                         itemExtent: 150,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius30, boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 3, spreadRadius: 3)]),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: borderRadius20),
-                                    child: Center(
-                                      child: Text(
-                                        '#' + streamSnapshot.data![index].id!.toString(),
-                                        style: TextStyle(fontFamily: gilroyBold, fontSize: 20),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        textPart('name', streamSnapshot.data![index].categoryName!),
-                                        textPart('createdAt', streamSnapshot.data![index].createdAt!),
-                                        textPart('phoneNumber', streamSnapshot.data![index].phone!),
-                                        textPart('status', streamSnapshot.data![index].status == 1 ? 'waiting' : 'accepted'),
-                                      ],
-                                    )),
-                              ],
-                            ),
-                          );
+                          return cardd(streamSnapshot, index);
                         },
                       ));
                 })));
+  }
+
+  Container cardd(AsyncSnapshot<List<HistoryOrderModel>> streamSnapshot, int index) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius30, boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 3, spreadRadius: 3)]),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: borderRadius20),
+              child: Center(
+                child: Text(
+                  '#' + streamSnapshot.data![index].id!.toString(),
+                  style: TextStyle(fontFamily: gilroyBold, fontSize: 20),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  textPart('name', streamSnapshot.data![index].categoryName!),
+                  textPart('createdAt', streamSnapshot.data![index].createdAt!),
+                  textPart('phoneNumber', streamSnapshot.data![index].phone!),
+                  textPart('status', streamSnapshot.data![index].status == 1 ? 'waiting' : 'accepted'),
+                ],
+              )),
+        ],
+      ),
+    );
   }
 
   Row textPart(String name1, String name2) {

@@ -5,24 +5,24 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class UserProfilController extends GetxController {
-  final storage = GetStorage();
+  GetStorage storage = GetStorage();
   RxBool agreeButton = false.obs;
-  RxList list = [].obs;
+  RxList dataSaveList = [].obs;
   addOrderId({required String id}) async {
-    list.add(id);
-    list.refresh();
-    final String jsonString = jsonEncode(list);
+    dataSaveList.add(id);
+    final String jsonString = jsonEncode(dataSaveList);
     await storage.write('orderList', jsonString);
   }
 
-  returnList() {
-    list.clear();
+  dynamic returnList() {
+    final result2 = storage.read('langCode') ?? '[]';
     final result = storage.read('orderList') ?? '[]';
+    print(result);
     final List jsonData = jsonDecode(result);
     if (jsonData.isEmpty) {
     } else {
       for (final element in jsonData) {
-        list.add(element);
+        if (dataSaveList.contains(element) == false) dataSaveList.add(element);
       }
     }
   }

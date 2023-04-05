@@ -236,6 +236,7 @@ class _Page2State extends State<Page2> {
                     onTap: () {
                       for (int i = 0; i < streamSnapshot.data!.length; i++) {
                         homeController.selectedList[i]['value'] = streamSnapshot.data![i].type.toString() == '1' ? _controllersList[i].text : _checboxList[i];
+                        if (homeController.selectedList[i]['value'].toString() == '') homeController.selectedList[i]['value'] = false;
                       }
                       print(homeController.selectedList);
 
@@ -293,7 +294,7 @@ class _Page2State extends State<Page2> {
             'is_multiple': streamSnapshot.data![i].isMultiple,
             'is_required': streamSnapshot.data![i].isRequired,
             'only_number': streamSnapshot.data![i].onlyNumber,
-            'value': false,
+            'value': "",
             "values": []
           });
         }
