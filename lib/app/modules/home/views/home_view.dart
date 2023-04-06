@@ -35,7 +35,6 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     bannersFuture = BannerService().getBanners();
-    getWorks = BannerService().getWorks();
   }
 
   final UserProfilController userProfilController = Get.put(UserProfilController());
@@ -58,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
                     Get.to(() => AddOrderPageView());
                   }),
                   button("homePage2", IconlyLight.discovery, () {
-                    Get.to(() => OurServices(future: getWorks));
+                    Get.to(() => OurServices());
                   }),
                 ],
               ),

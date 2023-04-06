@@ -129,6 +129,24 @@ void changeLanguage() {
               style: TextStyle(color: Colors.black),
             ),
           ),
+          divider(),
+          ListTile(
+            onTap: () {
+              userProfilController.switchLang('ru');
+              Get.back();
+            },
+            leading: const CircleAvatar(
+              backgroundImage: AssetImage(
+                engIcon,
+              ),
+              radius: 20,
+              backgroundColor: Colors.black,
+            ),
+            title: const Text(
+              'English',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
         ],
       ),
     ),

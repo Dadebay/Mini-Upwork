@@ -33,7 +33,11 @@ class _UserProfilViewState extends State<UserProfilView> {
       child: ListView(
         children: [
           ProfilButton(
-            name: Get.locale!.toLanguageTag() == 'tr' ? 'Türkmen dili' : 'Rus dili',
+            name: Get.locale!.toLanguageTag() == 'tr'
+                ? 'Türkmen dili'
+                : Get.locale!.toLanguageTag() == 'ru'
+                    ? 'Rus dili'
+                    : 'Inlis dili',
             onTap: () {
               changeLanguage();
             },

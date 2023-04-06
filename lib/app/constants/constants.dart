@@ -21,6 +21,7 @@ const String gilroySemiBold = 'GilroySemiBold';
 const String gilroyBold = 'GilroyBold';
 //Language icons
 const String tmIcon = 'assets/image/tm.png';
+const String engIcon = 'assets/image/uk.png';
 const String ruIcon = 'assets/image/ru.png';
 const String logo = 'assets/image/logo.png';
 const String noData = 'assets/lottie/noData.json';

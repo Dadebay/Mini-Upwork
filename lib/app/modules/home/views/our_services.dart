@@ -8,19 +8,17 @@ import 'package:maksat_app/app/constants/custom_app_bar.dart';
 import '../../../constants/error_widgets/empty_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
+import '../../../data/services/banner_service.dart';
 import 'banner_profile_view.dart';
 
 class OurServices extends StatelessWidget {
-  const OurServices({super.key, required this.future});
-  final Future<List<BannerModel>> future;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'ourServices'),
       body: FutureBuilder<List<BannerModel>>(
-          future: future,
+          future: BannerService().getWorks(),
           builder: (context, streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
@@ -47,11 +45,7 @@ class OurServices extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => BannerProfileView(
-                            streamSnapshot.data![index].title!,
-                            '$serverURL/${streamSnapshot.data![index].destination!}-mini.webp',
-                            streamSnapshot.data![index].description!,
-                          ));
+                      Get.to(() => BannerProfileView(streamSnapshot.data![index].id!));
                     },
                     child: Container(
                       margin: EdgeInsets.all(8),

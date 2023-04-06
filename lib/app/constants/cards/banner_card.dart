@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maksat_app/app/data/services/banner_service.dart';
 
 import '../constants.dart';
 import '../widgets.dart';
@@ -21,9 +20,7 @@ class BannerCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        BannerService().getBannersByID(id).then((value) {
-          Get.to(() => BannerProfileView(value.title!, image, value.description!));
-        });
+        Get.to(() => BannerProfileView(id));
       },
       child: Container(
         margin: const EdgeInsets.all(8),

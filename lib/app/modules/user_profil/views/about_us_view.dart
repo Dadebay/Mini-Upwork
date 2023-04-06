@@ -15,7 +15,7 @@ class AboutUsView extends GetView {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kPrimaryColor,
-        appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUS'),
+        appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUs'),
         body: customWidget(
           child: FutureBuilder<AboutUsModel>(
               future: GetUserData().getAboutUs(),
